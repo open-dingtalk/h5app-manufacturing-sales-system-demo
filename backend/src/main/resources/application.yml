@@ -1,0 +1,54 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+    application-display-name: h5-app-demo
+  tomcat:
+    uri-encoding: UTF-8
+    accesslog:
+      encoding: UTF-8
+spring:
+  profiles:
+    active: dev
+  mvc:
+    static-path-pattern: /**
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 3072MB
+      max-request-size: 3072MB
+  jackson:
+    # 全局设置@JsonFormat的格式pattern
+    date-format: yyyy-MM-dd HH:mm:ss
+    # 当地时区
+    locale: zh
+    # 设置全局时区
+    time-zone: GMT+8
+    #设置属性命名策略,对应jackson下PropertyNamingStrategy中的常量值，SNAKE_CASE-返回的json驼峰式转下划线，json body下划线传到后端自动转驼峰式
+    property-naming-strategy: SNAKE_CASE
+
+logging:
+  charset:
+    console: UTF-8
+  file:
+    path: ../logs/h5app
+  config: classpath:logback-spring.xml
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+dingTalk:
+  agentId: 1355272313
+  appKey: dingfsmxe3tw84dkrlpn
+  appSecret: deNlF5xOeTN0bcVsYWvJrOV0YA_tbJfITQWb4dX4LcH_SQwhN5-ssawZ4QWvp4W-
+yida:
+  #宜搭的应用编码 每个应用都不一致 需要自行配置
+  appCode: APP_T1ALOI2OMHEMJ3JNX7HP
+  #宜搭的应用密钥  每个应用都不一致 需要自行配置
+  appSecretKey: 9X866BD17MFWVQBLZJAJKWW58Z9P1LTUISIXKRG
+  commodityFormId: FORM-K5A66M71BMEWEDO92N2OTDK58JUK3N5GRHIXK45
+  customerFormId: FORM-K5A66M71BMEWEDO92N2OTDK58JUK3N5GRHIXK65
+  orderbillFormId: FORM-K5A66M71BMEWEDO92N2OTDK58JUK3N5GRHIXK95
+
+
