@@ -4,16 +4,14 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.dingtalk.common.util.SecurityAuthUtil;
 import com.dingtalk.common.util.ding.DingTalkUtil;
 import com.dingtalk.common.util.yida.YiDaConfig;
 import com.dingtalk.core.exception.CustomException;
 import com.dingtalk.service.BizService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
 
@@ -24,19 +22,7 @@ import java.util.*;
  */
 @Slf4j
 @Service
-@Transactional(rollbackFor = Exception.class)
 public class BizServiceImpl implements BizService {
-
-
-    /**
-     * redis
-     */
-    private RedisTemplate<Object, Object> redisTemplate;
-
-    @Autowired
-    public void setRedisTemplate(RedisTemplate<Object, Object> redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
 
 
     /**
@@ -45,11 +31,11 @@ public class BizServiceImpl implements BizService {
      * @return obj
      */
     @Override
-    public Object getCustomerList() {
+    public Object getCustomerList(String userId) {
         JSONObject customerQueryJson = new JSONObject();
         customerQueryJson.put("appType", YiDaConfig.APP_CODE);
         customerQueryJson.put("systemToken", YiDaConfig.APP_SECRET_KEY);
-        customerQueryJson.put("userId", SecurityAuthUtil.getUserIdByRequest());
+        customerQueryJson.put("userId", userId);
         customerQueryJson.put("language", "zh_CN");
         //表单id
         customerQueryJson.put("formUuid", YiDaConfig.CUSTOMER_FORM_ID);
@@ -78,11 +64,11 @@ public class BizServiceImpl implements BizService {
      * @return obj
      */
     @Override
-    public Object getCommodityList() {
+    public Object getCommodityList(String userId) {
         JSONObject customerQueryJson = new JSONObject();
         customerQueryJson.put("appType", YiDaConfig.APP_CODE);
         customerQueryJson.put("systemToken", YiDaConfig.APP_SECRET_KEY);
-        customerQueryJson.put("userId", SecurityAuthUtil.getUserIdByRequest());
+        customerQueryJson.put("userId", userId);
         customerQueryJson.put("language", "zh_CN");
         //表单id
         customerQueryJson.put("formUuid", YiDaConfig.COMMODITY_FORM_ID);
@@ -117,7 +103,7 @@ public class BizServiceImpl implements BizService {
         saveBillJson.put("appType", YiDaConfig.APP_CODE);
         saveBillJson.put("systemToken", YiDaConfig.APP_SECRET_KEY);
         //用户的userid。 此处应该实时获取当前登录人的用户信息
-        saveBillJson.put("userId", SecurityAuthUtil.getUserIdByRequest());
+        saveBillJson.put("userId", billInfo.getString("userId"));
         saveBillJson.put("language", "zh_CN");
         //单据formid
         saveBillJson.put("formUuid", YiDaConfig.ORDERBILL_FORM_ID);

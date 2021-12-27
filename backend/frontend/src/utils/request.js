@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Message } from "element-ui";
 
-let baseURL = "http://127.0.0.1:8080";
+let baseURL = "";
 
 // 创建一个axios实例
 const axiosService = axios.create({

@@ -60,6 +60,18 @@ public class YiDaConfig {
     public static String DD_APP_SECRET;
 
 
+    public static String DD_CORP_ID;
+
+
+    public static String getDdCorpId() {
+        return DD_CORP_ID;
+    }
+
+    @Value(value = "${dingTalk.corpId}")
+    public void setDdCorpId(String ddCorpId) {
+        DD_CORP_ID = ddCorpId;
+    }
+
     /**
      * 宜搭的应用编码
      *

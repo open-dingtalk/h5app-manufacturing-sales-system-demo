@@ -1,7 +1,6 @@
 import * as dd from 'dingtalk-jsapi';
 
-export function getCode(callback) {
-    let corpId = 'ding***********0046';
+export function getCode(callback, corpId) {
     if (dd.env.platform !== "notInDingTalk") {
         dd.ready(() => {
             //使用SDK 获取免登授权码

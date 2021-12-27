@@ -1,5 +1,12 @@
 import axiosService from '../utils/request'
 
+export const getCorpId = data => {
+    return axiosService({
+        url: "/login/getCorpId/" + data.code,
+        method: "get",
+    });
+}
+
 export const getDingTalkUserInfo = data => {
     return axiosService({
         url: "/login/dingtalk/" + data.code,
@@ -20,7 +27,7 @@ export const getClientList = data => {
     return axiosService({
         url: "/biz/getCustomerList",
         method: "get",
-        params: data,
+        params: data
     });
 }
 
@@ -38,6 +45,7 @@ export const addOrder = data => {
     return axiosService({
         url: "/biz/saveSaleBillInfo",
         method: "post",
-        params: data,
+        data: data,
+        headers:{'Content-Type':'application/json;charset=UTF-8'}
     });
 }

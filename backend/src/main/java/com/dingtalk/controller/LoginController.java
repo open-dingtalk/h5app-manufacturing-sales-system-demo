@@ -1,7 +1,7 @@
 package com.dingtalk.controller;
 
 import cn.hutool.core.lang.Assert;
-import com.dingtalk.core.annotation.NotNeedLogin;
+import com.dingtalk.common.util.yida.YiDaConfig;
 import com.dingtalk.core.domain.AjaxResult;
 import com.dingtalk.service.LoginService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,11 +29,20 @@ public class LoginController {
         this.loginService = loginService;
     }
 
-    @NotNeedLogin
     @RequestMapping(value = "/dingtalk/{code}", method = RequestMethod.GET)
     public AjaxResult<Object> dingTalkLoginByCode(@PathVariable(value = "code") String code) {
         Assert.notBlank(code, () -> new RuntimeException("code不能为空!"));
         return AjaxResult.success(loginService.dingTalkLongByCode(code));
+    }
+
+    /**
+     * 获取corpId
+     * @return
+     */
+    @RequestMapping(value = "/getCorpId", method = RequestMethod.GET)
+    public AjaxResult<Object> getCorpId() {
+        log.info("coroId:{}", YiDaConfig.getDdCorpId());
+        return AjaxResult.success(YiDaConfig.getDdCorpId());
     }
 
 

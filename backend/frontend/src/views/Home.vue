@@ -214,9 +214,10 @@ import {
   getOrderList,
   getClientList,
   getGoodsList,
-  addOrder,
+  addOrder, getCorpId,
 } from "../api/index.js";
 import { getCode } from "../utils/dindin";
+import { Message } from "element-ui";
 export default {
   props: {},
   components: {},
@@ -412,42 +413,53 @@ export default {
     if (this.goodList.length === 0) {
       this.addGoodsData();
     }
-    // 获取钉钉免登code、参数：回调函数
-    getCode((code) => {
-      if (code === undefined || code === null || code == "") {
-        console.log("获取用户免登授权码失败!");
-        return;
+    getCorpId({ code: ""}).then((resp) => {
+      Message.info("getCorpId resp:" + JSON.stringify(resp));
+      if (resp != null && resp.code == 200) {
+        let corpId = resp.data;
+        Message.info("corpId:" + corpId);
+        // 获取钉钉免登code、参数：回调函数
+        getCode((code) => {
+          if (code === undefined || code === null || code == "") {
+            Message.error("获取用户免登授权码失败!");
+            return;
+          }
+          getDingTalkUserInfo({ code: code }).then((res) => {
+            Message.info(res);
+            if (res != null && res.code == 200) {
+              let data = res.data;
+              localStorage.setItem("dduserinfo", data);
+              localStorage.setItem("dindinToken", data.token);
+            }
+          });
+        }, corpId);
       }
-      getDingTalkUserInfo({ code: code }).then((res) => {
-        console.log(res);
-        if (res != null && res.code == 200) {
-          let data = res.data;
-          localStorage.setItem("dduserinfo", data);
-          localStorage.setItem("dindinToken", data.token);
-        }
-      });
-    });
+
+    })
+
   },
   methods: {
     initGetOrderList() {
       getOrderList(this.parameter).then((res) => {
-        console.log(res);
+        Message.info(res);
       });
     },
     initGetClientList() {
       getClientList().then((res) => {
-        console.log(res);
+        Message.info(res);
       });
     },
     initGetGoodsList() {
       getGoodsList().then((res) => {
-        console.log(res);
+        Message.info(res);
       });
     },
     addOrderClick() {
+      // let userId = sessionStorage.getItem("dduserinfo").userId;
       this.orderForm.goodlist = this.goodList;
-      addOrder().then((res) => {
-        console.log(res);
+      // this.orderForm.userId = userId;
+      addOrder(this.orderForm).then((res) => {
+        Message.info(res);
         this.orderDrawer = false;
         this.goodList = [];
         this.$refs.form.resetFields();
@@ -455,13 +467,13 @@ export default {
     },
     // size
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      Message.info(`每页 ${val} 条`);
       this.parameter.pageNum = val;
       this.getOrderList();
     },
     // 页码
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      Message.info(`当前页: ${val}`);
       this.parameter.pageSize = val;
       this.getOrderList();
     },

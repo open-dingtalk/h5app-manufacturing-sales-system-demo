@@ -15,14 +15,14 @@ public interface BizService {
      *
      * @return obj
      */
-    Object getCustomerList();
+    Object getCustomerList(String userId);
 
     /**
      * 获取商品列表信息
      *
      * @return obj
      */
-    Object getCommodityList();
+    Object getCommodityList(String userId);
 
     /**
      * 保存销售订单

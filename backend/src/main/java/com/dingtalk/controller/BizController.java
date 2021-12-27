@@ -5,9 +5,7 @@ import com.dingtalk.core.domain.AjaxResult;
 import com.dingtalk.service.BizService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 业务接口控制层
@@ -16,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/biz/")
+@RequestMapping(value = "/biz")
 public class BizController {
 
     private final BizService bizService;
@@ -32,9 +30,9 @@ public class BizController {
      *
      * @return obj
      */
-    @RequestMapping(value = "/getCustomerList")
-    public AjaxResult<?> getCustomerList() {
-        return AjaxResult.success(bizService.getCustomerList());
+    @RequestMapping(value = "/getCustomerList", method = RequestMethod.POST)
+    public AjaxResult<?> getCustomerList(@RequestParam String userId) {
+        return AjaxResult.success(bizService.getCustomerList(userId));
     }
 
     /**
@@ -42,20 +40,22 @@ public class BizController {
      *
      * @return Ajax
      */
-    @RequestMapping(value = "/getCommodityList")
-    public AjaxResult<Object> getCommodityList() {
-        return AjaxResult.success(bizService.getCommodityList());
+    @RequestMapping(value = "/getCommodityList", method = RequestMethod.POST)
+    public AjaxResult<Object> getCommodityList(@RequestParam String userId) {
+        return AjaxResult.success(bizService.getCommodityList(userId));
     }
 
 
     /**
      * 保存单据信息
      *
-     * @param billInfo 单据信息
+     * @param params 单据信息
      * @return ajax
      */
-    @RequestMapping(value = "saveSaleBillInfo")
-    public AjaxResult<Object> saveSaleBillInfo(@RequestBody JSONObject billInfo) {
+    @RequestMapping(value = "/saveSaleBillInfo", method = RequestMethod.POST)
+    public AjaxResult<Object> saveSaleBillInfo(@RequestBody String params) {
+        System.out.println(params);
+        JSONObject billInfo = JSONObject.parseObject(params);
         return AjaxResult.success(bizService.saveSaleBillInfo(billInfo));
     }
 }
