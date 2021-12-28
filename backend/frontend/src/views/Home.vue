@@ -414,10 +414,9 @@ export default {
       this.addGoodsData();
     }
     getCorpId({ code: ""}).then((resp) => {
-      Message.info("getCorpId resp:" + JSON.stringify(resp));
-      if (resp != null && resp.code == 200) {
-        let corpId = resp.data;
-        Message.info("corpId:" + corpId);
+      if (resp != null && resp.status == 200) {
+        let corpId = resp.data.data;
+        // Message.info("corpId:" + corpId);
         // 获取钉钉免登code、参数：回调函数
         getCode((code) => {
           if (code === undefined || code === null || code == "") {
@@ -425,11 +424,10 @@ export default {
             return;
           }
           getDingTalkUserInfo({ code: code }).then((res) => {
-            Message.info(res);
-            if (res != null && res.code == 200) {
-              let data = res.data;
-              localStorage.setItem("dduserinfo", data);
-              localStorage.setItem("dindinToken", data.token);
+            if (res != null && res.status == 200) {
+              let data = res.data.data;
+              // Message.info("用户id：" + data.userId);
+              localStorage.setItem("dduserid", data.userId);
             }
           });
         }, corpId);
@@ -455,9 +453,10 @@ export default {
       });
     },
     addOrderClick() {
-      // let userId = sessionStorage.getItem("dduserinfo").userId;
+      let userId = localStorage.getItem("dduserid");
       this.orderForm.goodlist = this.goodList;
-      // this.orderForm.userId = userId;
+      this.orderForm.userId = userId;
+      Message.info("userinfo：" + userId);
       addOrder(this.orderForm).then((res) => {
         Message.info(res);
         this.orderDrawer = false;

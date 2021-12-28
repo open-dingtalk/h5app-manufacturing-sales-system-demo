@@ -1,28 +1,13 @@
 import axios from "axios";
 import { Message } from "element-ui";
 
-let baseURL = "";
+// let baseURL = "";
 
 // 创建一个axios实例
 const axiosService = axios.create({
-    baseURL,
     timeout: 5000, // 设置超时时间为5s
 });
 
-// request拦截器 ==> 对请求参数进行处理
-axiosService.interceptors.request.use(
-    (config) => {
-        let dindinToken = localStorage.getItem("dindinToken");
-        if (dindinToken) {
-            config.headers.token = dindinToken;
-        }
-        return config;
-    },
-    (error) => {
-        // 处理请求错误
-        Promise.reject(error);
-    }
-);
 
 // respone拦截器 ==> 对响应做处理
 // let that = this;

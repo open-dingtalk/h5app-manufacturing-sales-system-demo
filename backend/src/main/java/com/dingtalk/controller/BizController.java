@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+
 /**
  * 业务接口控制层
  *
@@ -56,6 +58,11 @@ public class BizController {
     public AjaxResult<Object> saveSaleBillInfo(@RequestBody String params) {
         System.out.println(params);
         JSONObject billInfo = JSONObject.parseObject(params);
-        return AjaxResult.success(bizService.saveSaleBillInfo(billInfo));
+        try {
+            return AjaxResult.success(bizService.saveSaleBillInfo(billInfo));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return AjaxResult.error("时间格式有误");
+        }
     }
 }

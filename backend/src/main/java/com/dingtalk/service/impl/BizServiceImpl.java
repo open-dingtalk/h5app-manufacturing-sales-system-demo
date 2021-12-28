@@ -4,15 +4,19 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.aliyun.dingboot.common.token.ITokenManager;
 import com.dingtalk.common.util.ding.DingTalkUtil;
 import com.dingtalk.common.util.yida.YiDaConfig;
 import com.dingtalk.core.exception.CustomException;
 import com.dingtalk.service.BizService;
+import com.taobao.api.ApiException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -24,6 +28,22 @@ import java.util.*;
 @Service
 public class BizServiceImpl implements BizService {
 
+    @Autowired
+    private ITokenManager tokenManager;
+
+    /**
+     * 获取accesstoken
+     *
+     * @return obj
+     */
+    public String getAccessToken() {
+        try {
+            return tokenManager.getAccessToken(YiDaConfig.DD_APP_KEY, YiDaConfig.DD_APP_SECRET);
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     /**
      * 获取客户列表
@@ -47,7 +67,7 @@ public class BizServiceImpl implements BizService {
         //每页显示数量
         customerQueryJson.put("pageSize", 10);
 
-        String resString = DingTalkUtil.getYidaInstances(customerQueryJson);
+        String resString = DingTalkUtil.getYidaInstances(customerQueryJson, getAccessToken());
         if (JSONUtil.isJson(resString)) {
             JSONObject responseJson = JSONObject.parseObject(resString);
             log.info("当前页：{}", responseJson.getString("currentPage"));
@@ -80,7 +100,7 @@ public class BizServiceImpl implements BizService {
         //每页显示数量
         customerQueryJson.put("pageSize", 10);
 
-        String resString = DingTalkUtil.getYidaInstances(customerQueryJson);
+        String resString = DingTalkUtil.getYidaInstances(customerQueryJson, getAccessToken());
         if (JSONUtil.isJson(resString)) {
             JSONObject responseJson = JSONObject.parseObject(resString);
             log.info("当前页：{}", responseJson.getString("currentPage"));
@@ -98,7 +118,7 @@ public class BizServiceImpl implements BizService {
      * @return obj
      */
     @Override
-    public Object saveSaleBillInfo(JSONObject billInfo) {
+    public Object saveSaleBillInfo(JSONObject billInfo) throws ParseException {
         JSONObject saveBillJson = new JSONObject();
         saveBillJson.put("appType", YiDaConfig.APP_CODE);
         saveBillJson.put("systemToken", YiDaConfig.APP_SECRET_KEY);
@@ -108,7 +128,7 @@ public class BizServiceImpl implements BizService {
         //单据formid
         saveBillJson.put("formUuid", YiDaConfig.ORDERBILL_FORM_ID);
         JSONObject formDataJson = new JSONObject();
-        saveBillJson.put("formDataJson", formDataJson.toJSONString());
+
         // region  开始构建表单保存参数
         //客户订单号
         formDataJson.put("textField_kwemovzr", billInfo.getString("serialNum"));
@@ -117,9 +137,13 @@ public class BizServiceImpl implements BizService {
         Assert.notBlank(selectUser, () -> new CustomException("请选择客户信息!"));
         formDataJson.put("selectField_ksr76rov", selectUser);
         //交货日期
-        Date handInDate = billInfo.getDate("handInDate");
+        SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS",Locale.ENGLISH);//输入的被转化的时间格式
+        SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String handInDateStr = billInfo.getString("handInDate");
+        Date handInDate = dff.parse(handInDateStr);
+        String dateStr = df1.format(handInDate);
         Assert.notNull(handInDate, () -> new CustomException("请选择交货日期!"));
-        formDataJson.put("column_kwemow01", handInDate);
+        formDataJson.put("column_kwemow01", dateStr);
         //备注
         String note = billInfo.getString("note");
         formDataJson.put("textareaField_ksr76rpi", note);
@@ -179,8 +203,9 @@ public class BizServiceImpl implements BizService {
 
         }
         formDataJson.put("tableField_ksr76rox", shoppingList);
+        saveBillJson.put("formDataJson", formDataJson.toJSONString());
         //endregion
-        String resString = DingTalkUtil.saveYidaFormData(saveBillJson);
+        String resString = DingTalkUtil.saveYidaFormData(saveBillJson, getAccessToken());
         log.info("保存单据返回响应的结果：{}", resString);
         if (JSONUtil.isJson(resString)) {
             JSONObject responseJson = JSONObject.parseObject(resString);

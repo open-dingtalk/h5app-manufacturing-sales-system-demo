@@ -5,11 +5,15 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.UUID;
 import com.alibaba.fastjson.JSONObject;
+import com.aliyun.dingboot.common.token.ITokenManager;
 import com.dingtalk.api.response.OapiV2UserGetResponse;
 import com.dingtalk.common.util.ding.DingTalkUtil;
+import com.dingtalk.common.util.yida.YiDaConfig;
 import com.dingtalk.core.exception.CustomException;
 import com.dingtalk.service.LoginService;
+import com.taobao.api.ApiException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -27,6 +31,22 @@ public class LoginServiceImpl implements LoginService {
 
     public static Map<String, Map<String, Object>> userInfoMaps = new HashMap<>();
 
+    @Autowired
+    private ITokenManager tokenManager;
+
+    /**
+     * 获取accesstoken
+     *
+     * @return obj
+     */
+    public String getAccessToken() {
+        try {
+            return tokenManager.getAccessToken(YiDaConfig.DD_APP_KEY, YiDaConfig.DD_APP_SECRET);
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     /**
      * 钉钉登录
@@ -36,8 +56,8 @@ public class LoginServiceImpl implements LoginService {
      */
     @Override
     public Object dingTalkLongByCode(String code) {
-        String userId = DingTalkUtil.getDdUserIdByCode(code);
-        OapiV2UserGetResponse.UserGetResponse user = DingTalkUtil.getDingUserByUserId(userId);
+        String userId = DingTalkUtil.getDdUserIdByCode(code, getAccessToken());
+        OapiV2UserGetResponse.UserGetResponse user = DingTalkUtil.getDingUserByUserId(userId, getAccessToken());
         String ddUserId = user.getUserid();
         String token = UUID.randomUUID().toString(true);
         Map<String, Object> userInfo = new HashMap<>(2);

@@ -2,6 +2,8 @@ package com.dingtalk.service;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.text.ParseException;
+
 /**
  * 业务逻辑层
  *
@@ -30,5 +32,5 @@ public interface BizService {
      * @param billInfo 单据信息
      * @return obj
      */
-    Object saveSaleBillInfo(JSONObject billInfo);
+    Object saveSaleBillInfo(JSONObject billInfo) throws ParseException;
 }

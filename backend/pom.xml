@@ -67,6 +67,13 @@
             <artifactId>alibaba-dingtalk-service-sdk</artifactId>
             <version>2.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.aliyun.dingboot</groupId>
+            <artifactId>dingboot-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/lib/dingboot-common-0.0.1-SNAPSHOT.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>
