@@ -1,4 +1,4 @@
-package com.dingtalk.common.util.ding;
+package com.dingtalk.util;
 
 /**
  * dingTalk 网页常用链接
@@ -31,7 +31,7 @@ public class DingTalkUrlConstant {
      *
      * @return Str
      */
-    public static String getYidaInstancesUrl() {
+    public static String getYiDaInstancesUrl() {
         return String.format("%s/v1.0/yida/forms/instances/search", BASE_URL_NEW);
     }
 
@@ -45,7 +45,7 @@ public class DingTalkUrlConstant {
      * @param userId      用户id
      * @return String
      */
-    public static String getYidaFormDataUrl(String instancesId, String appType, String systemToken, String userId) {
+    public static String getYiDaFormDataUrl(String instancesId, String appType, String systemToken, String userId) {
         return BASE_URL_NEW.concat(" /v1.0/yida/forms/instances/").concat(instancesId).concat("?appType=")
                 .concat(appType).concat("&systemToken=").concat(systemToken).concat("&userId=").concat(userId)
                 .concat("&language=zh_CN");
@@ -57,7 +57,7 @@ public class DingTalkUrlConstant {
      *
      * @return url
      */
-    public static String startYidaInstances() {
+    public static String startYiDaInstances() {
         return BASE_URL_NEW.concat("/v1.0/yida/processes/instances/start");
     }
 
@@ -67,7 +67,7 @@ public class DingTalkUrlConstant {
      *
      * @return url
      */
-    public static String getYidaSaveFormDateUrl() {
+    public static String getYiDaSaveFormDateUrl() {
         return BASE_URL_NEW.concat("/v1.0/yida/forms/instances");
     }
 
@@ -76,7 +76,7 @@ public class DingTalkUrlConstant {
      *
      * @return url
      */
-    public static String getUpdateYidaInstancesUrl() {
+    public static String getUpdateYiDaInstancesUrl() {
         return BASE_URL_NEW.concat("/v1.0/yida/processes/instances");
     }
 
@@ -89,7 +89,7 @@ public class DingTalkUrlConstant {
      * @param processInstanceId 流程实例ID
      * @return string
      */
-    public static String getTerminateYidaInstancesUrl(String appType, String systemToken, String userId, String processInstanceId) {
+    public static String getTerminateYiDaInstancesUrl(String appType, String systemToken, String userId, String processInstanceId) {
         return BASE_URL_NEW +
                 "/v1.0/yida/processes/instances/terminate?" +
                 "appType=" + appType + "&systemToken=" +
@@ -107,7 +107,7 @@ public class DingTalkUrlConstant {
      * @param processInstanceId 流程实例ID
      * @return string
      */
-    public static String getDeleteYidaInstancesUrl(String appType, String systemToken, String userId, String processInstanceId) {
+    public static String getDeleteYiDaInstancesUrl(String appType, String systemToken, String userId, String processInstanceId) {
         return BASE_URL_NEW.concat("/v1.0/yida/processes/instances")
                 .concat("?appType=").concat(appType).concat("&systemToken=").concat(systemToken)
                 .concat("&userId=").concat(userId).concat("&language=zh_CN")
@@ -123,7 +123,7 @@ public class DingTalkUrlConstant {
      * @param processInstanceId 流程实例ID
      * @return string
      */
-    public static String getYidaProcessesOperationRecordsUrl(String appType, String systemToken, String userId, String processInstanceId) {
+    public static String getYiDaProcessesOperationRecordsUrl(String appType, String systemToken, String userId, String processInstanceId) {
         return BASE_URL_NEW.concat("/v1.0/yida/processes/operationRecords")
                 .concat("?appType=").concat(appType)
                 .concat("&systemToken=").concat(systemToken)
@@ -139,7 +139,7 @@ public class DingTalkUrlConstant {
      * @param pageNumber 分页页码
      * @return url
      */
-    public static String getYidaInstanceIdsUrl(long pageSize, long pageNumber) {
+    public static String getYiDaInstanceIdsUrl(long pageSize, long pageNumber) {
         return BASE_URL_NEW.concat("/v1.0/yida/processes/instanceIds")
                 .concat("?pageSize=").concat(String.valueOf(pageSize))
                 .concat("&pageNumber=").concat(String.valueOf(pageNumber));
@@ -154,7 +154,7 @@ public class DingTalkUrlConstant {
      * @param userId      用户userid
      * @return string
      */
-    public static String getYidaInstancesInfosUrl(String instancesId, String appType, String systemToken, String userId) {
+    public static String getYiDaInstancesInfosUrl(String instancesId, String appType, String systemToken, String userId) {
         return BASE_URL_NEW.concat("/v1.0/yida/processes/instancesInfos/")
                 .concat(instancesId).concat("?appType=").concat(appType)
                 .concat("&systemToken=").concat(systemToken).concat("&userId=").concat(userId)

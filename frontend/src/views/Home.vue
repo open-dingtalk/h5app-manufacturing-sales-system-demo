@@ -2,21 +2,6 @@
   <div class="homeBox">
     <!-- 查询 -->
     <div class="searchBox">
-      <!-- <el-input
-        v-model="parameter.orderName"
-        placeholder="请输入订单名称"
-        @change="getOrderList"
-      ></el-input>
-      <el-input
-        v-model="parameter.clientName"
-        placeholder="请输入客户名称"
-        @change="getOrderList"
-      ></el-input>
-      <el-input
-        v-model="parameter.goodsName"
-        placeholder="请输入商品名称"
-        @change="getClientList"
-      ></el-input> -->
       <el-button
         type="primary"
         style="position: absolute; right: 0"
@@ -26,28 +11,30 @@
     </div>
     <!-- 列表 -->
     <el-table :data="dataList" stripe border style="width: 100%">
-      <el-table-column prop="instanceTitle" label="实例标题"></el-table-column>
+      <el-table-column prop="instanceTitle" label="实例编号"></el-table-column>
       <el-table-column prop="serialNum" label="编号"></el-table-column>
       <el-table-column prop="selectUser" label="选择用户"></el-table-column>
       <el-table-column prop="clientOrder" label="客户订单号"></el-table-column>
       <el-table-column prop="handInDate" label="交货日期"></el-table-column>
       <el-table-column prop="note" label="备注"></el-table-column>
-      <el-table-column
-        prop="clientSerialNum"
-        label="客户编号"
-      ></el-table-column>
       <el-table-column prop="clientEntire" label="客户全称"></el-table-column>
-      <el-table-column prop="clientName" label="客户联系人"></el-table-column>
-      <el-table-column prop="clientPhone" label="联系方式"></el-table-column>
-      <el-table-column prop="clientAddress" label="地址"></el-table-column>
       <el-table-column prop="prepaidOrder" label="预付订单"></el-table-column>
       <el-table-column prop="deposit" label="订金（元）"></el-table-column>
       <el-table-column
         prop="depositMoney"
         label="订单金额（元）"
       ></el-table-column>
-      <el-table-column prop="createTime" label="创建时间"></el-table-column>
-      <el-table-column prop="updataTime" label="修改时间"></el-table-column>
+
+      <el-table-column label="操作" width="120">
+        <template slot-scope="scope">
+          <el-button
+            style="color: #2e63c8"
+            type="text"
+            @click="deleteRowData(scope.row.instanceTitle)"
+            >删除
+          </el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"
@@ -66,7 +53,8 @@
       title="新增订单"
       :visible.sync="orderDrawer"
       direction="rtl"
-      size="50%"
+      size="60%"
+      @close="closeDrawer"
     >
       <el-form ref="form" :model="orderForm" label-width="100px">
         <el-form-item label="编号">
@@ -74,7 +62,7 @@
         </el-form-item>
         <el-form-item label="选择客户">
           <!-- <el-input v-model="orderForm.selectUser"></el-input> -->
-          <el-select v-model="orderForm.selectUser" placeholder="请选择">
+          <el-select v-model="orderForm.selectUser" placeholder="请选择" clearable>
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -212,10 +200,10 @@
 import {
   getDingTalkUserInfo,
   getOrderList,
-  getClientList,
-  getGoodsList,
-  addOrder, getCorpId,
-} from "../api/index.js";
+  addOrder,
+  deleteOrder,
+  getCorpId
+} from "../api";
 import { getCode } from "../utils/dindin";
 import { Message } from "element-ui";
 export default {
@@ -224,9 +212,6 @@ export default {
   data() {
     return {
       parameter: {
-        // orderName: "",
-        // clientName: "",
-        // goodsName: "",
         pageNum: 1,
         pageSize: 10,
       },
@@ -249,98 +234,26 @@ export default {
           depositMoney: "1000",
           createTime: "2021-12-18",
           updataTime: "2121-12-18",
-        },
-        {
-          instanceTitle: "标题",
-          serialNum: "001",
-          selectUser: "选择用户",
-          clientOrder: "20211218",
-          handInDate: "2021-12-24",
-          note: "请尽快发货",
-          clientSerialNum: "C001",
-          clientEntire: "路人甲的全称",
-          clientName: "路人甲",
-          clientPhone: "15896358753",
-          clientAddress: "江苏省南京市",
-          prepaidOrder: "20211218",
-          deposit: "1000",
-          depositMoney: "1000",
-          createTime: "2021-12-18",
-          updataTime: "2121-12-18",
-        },
-        {
-          instanceTitle: "标题",
-          serialNum: "001",
-          selectUser: "选择用户",
-          clientOrder: "20211218",
-          handInDate: "2021-12-24",
-          note: "请尽快发货",
-          clientSerialNum: "C001",
-          clientEntire: "路人甲的全称",
-          clientName: "路人甲",
-          clientPhone: "15896358753",
-          clientAddress: "江苏省南京市",
-          prepaidOrder: "20211218",
-          deposit: "1000",
-          depositMoney: "1000",
-          createTime: "2021-12-18",
-          updataTime: "2121-12-18",
-        },
-        {
-          instanceTitle: "标题",
-          serialNum: "001",
-          selectUser: "选择用户",
-          clientOrder: "20211218",
-          handInDate: "2021-12-24",
-          note: "请尽快发货",
-          clientSerialNum: "C001",
-          clientEntire: "路人甲的全称",
-          clientName: "路人甲",
-          clientPhone: "15896358753",
-          clientAddress: "江苏省南京市",
-          prepaidOrder: "20211218",
-          deposit: "1000",
-          depositMoney: "1000",
-          createTime: "2021-12-18",
-          updataTime: "2121-12-18",
-        },
-        {
-          instanceTitle: "标题",
-          serialNum: "001",
-          selectUser: "选择用户",
-          clientOrder: "20211218",
-          handInDate: "2021-12-24",
-          note: "请尽快发货",
-          clientSerialNum: "C001",
-          clientEntire: "路人甲的全称",
-          clientName: "路人甲",
-          clientPhone: "15896358753",
-          clientAddress: "江苏省南京市",
-          prepaidOrder: "20211218",
-          deposit: "1000",
-          depositMoney: "1000",
-          createTime: "2021-12-18",
-          updataTime: "2121-12-18",
-        },
+        }
       ],
       // 新增
       orderDrawer: false,
       options: [
         {
-          value: "0",
-          label: "A公司",
+          value: "李先生",
+          label: "李先生",
         },
         {
-          value: "1",
-          label: "B公司",
+          value: "张小姐",
+          label: "张小姐",
         },
         {
-          value: "2",
-          label: "C公司",
+          value: "王先生",
+          label: "王先生",
         },
         {
-          value: "3",
-          label: "D公司",
+          value: "刘小姐",
+          label: "刘小姐",
         },
       ],
       orderForm: {
@@ -419,7 +332,7 @@ export default {
         // Message.info("corpId:" + corpId);
         // 获取钉钉免登code、参数：回调函数
         getCode((code) => {
-          if (code === undefined || code === null || code == "") {
+          if (code ?? '' == "") {
             Message.error("获取用户免登授权码失败!");
             return;
           }
@@ -428,41 +341,49 @@ export default {
               let data = res.data.data;
               // Message.info("用户id：" + data.userId);
               localStorage.setItem("dduserid", data.userId);
+              getOrderList({"userId": data.userId}).then((res) => {
+                this.dataList = res.data.data;
+              });
             }
           });
         }, corpId);
       }
-
     })
-
   },
   methods: {
-    initGetOrderList() {
-      getOrderList(this.parameter).then((res) => {
-        Message.info(res);
-      });
-    },
-    initGetClientList() {
-      getClientList().then((res) => {
-        Message.info(res);
-      });
-    },
-    initGetGoodsList() {
-      getGoodsList().then((res) => {
-        Message.info(res);
-      });
-    },
+
     addOrderClick() {
       let userId = localStorage.getItem("dduserid");
       this.orderForm.goodlist = this.goodList;
       this.orderForm.userId = userId;
-      Message.info("userinfo：" + userId);
-      addOrder(this.orderForm).then((res) => {
-        Message.info(res);
+      console.log(userId);
+      let data = {...this.orderForm}
+      data.handInDate = new Date(data.handInDate).getTime()
+      addOrder(data).then((res) => {
+        // Message.info(res);
+        if (res.data.code == 200) {
+          this.$message.success('新增成功')
+        }
+        getOrderList({"userId": userId}).then((res) => {
+          this.dataList = res.data.data;
+        });
         this.orderDrawer = false;
         this.goodList = [];
+        this.addGoodsData()
         this.$refs.form.resetFields();
       });
+    },
+    closeDrawer() {
+      this.orderForm = {
+        serialNum: "", // 编号
+        selectUser: "", // 选择客户
+        clientOrder: "", // 客户订单号
+        handInDate: "", // 交货日起
+        note: "", // 备注
+        prepaidOrder: "0", // 是否预付订单
+        deposit: "", // 订金
+        depositMoney: "", // 订金总额
+      }
     },
     // size
     handleSizeChange(val) {
@@ -513,9 +434,27 @@ export default {
             type: "success",
             message: "删除成功!",
           });
+
         })
         .catch(() => {});
     },
+
+    deleteRowData(id) {
+      console.log(id);
+      deleteOrder({
+        'userId': localStorage.getItem("dduserid"),
+        'id': id}).then(res => {
+        if (res.data.code == 200) {
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+          getOrderList({"userId": localStorage.getItem("dduserid")}).then((res) => {
+            this.dataList = res.data.data;
+          });
+        }
+      })
+    }
   },
 };
 </script>

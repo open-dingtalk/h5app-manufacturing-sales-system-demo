@@ -1,4 +1,4 @@
-package com.dingtalk.common.util.ding;
+package com.dingtalk.util;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -179,7 +179,7 @@ public class DingCallbackCrypto {
         return decrypt(encryptMsg);
     }
 
-    /*
+    /**
      * 对明文加密.
      * @param text 需要加密的明文
      * @return 加密后base64编码的字符串
@@ -210,7 +210,7 @@ public class DingCallbackCrypto {
         }
     }
 
-    /*
+    /**
      * 对密文进行解密.
      * @param text 需要解密的密文
      * @return 解密得到的明文

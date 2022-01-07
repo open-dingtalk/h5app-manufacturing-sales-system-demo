@@ -1,4 +1,4 @@
-package com.dingtalk.common.util.yida;
+package com.dingtalk.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,23 +23,10 @@ public class YiDaConfig {
      */
     public static String APP_SECRET_KEY;
 
-
-    /**
-     * 商品 表单id
-     */
-    public static String COMMODITY_FORM_ID;
-
-
-    /**
-     * 客户表单id
-     */
-    public static String CUSTOMER_FORM_ID;
-
-
     /**
      * 订货单 表单id
      */
-    public static String ORDERBILL_FORM_ID;
+    public static String ORDER_FORM_ID;
 
 
     /**
@@ -93,33 +80,13 @@ public class YiDaConfig {
     }
 
     /**
-     * 商品 表单id
-     *
-     * @param commodityFormId 商品表单id
-     */
-    @Value(value = "${yida.commodityFormId}")
-    public void setCommodityFormId(String commodityFormId) {
-        YiDaConfig.COMMODITY_FORM_ID = commodityFormId;
-    }
-
-    /**
-     * 客户表单id
-     *
-     * @param customerFormId 客户表单id
-     */
-    @Value(value = "${yida.customerFormId}")
-    public void setCustomerFormId(String customerFormId) {
-        YiDaConfig.CUSTOMER_FORM_ID = customerFormId;
-    }
-
-    /**
      * 订货单 表单id
      *
-     * @param orderbillFormId 订货单表单id
+     * @param orderFormId 订货单表单id
      */
-    @Value(value = "${yida.orderbillFormId}")
-    public void setOrderbillFormId(String orderbillFormId) {
-        YiDaConfig.ORDERBILL_FORM_ID = orderbillFormId;
+    @Value(value = "${yida.orderFormId}")
+    public void setOrderFormId(String orderFormId) {
+        YiDaConfig.ORDER_FORM_ID = orderFormId;
     }
 
     /**

@@ -1,10 +1,11 @@
 import axios from "axios";
 import { Message } from "element-ui";
 
-// let baseURL = "";
+let baseURL = "";
 
 // 创建一个axios实例
 const axiosService = axios.create({
+    baseURL,
     timeout: 5000, // 设置超时时间为5s
 });
 

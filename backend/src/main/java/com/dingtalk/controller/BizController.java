@@ -26,35 +26,23 @@ public class BizController {
         this.bizService = bizService;
     }
 
-
     /**
-     * 获取客户列表
+     * 获取订货单列表
      *
      * @return obj
      */
-    @RequestMapping(value = "/getCustomerList", method = RequestMethod.POST)
-    public AjaxResult<?> getCustomerList(@RequestParam String userId) {
-        return AjaxResult.success(bizService.getCustomerList(userId));
+    @RequestMapping(value = "/getOrderList", method = RequestMethod.GET)
+    public AjaxResult<?> getOrderList(@RequestParam String userId) {
+        return AjaxResult.success(bizService.getOrderList(userId));
     }
 
     /**
-     * 获取商品列表数据
+     * 保存订货单订单
      *
-     * @return Ajax
-     */
-    @RequestMapping(value = "/getCommodityList", method = RequestMethod.POST)
-    public AjaxResult<Object> getCommodityList(@RequestParam String userId) {
-        return AjaxResult.success(bizService.getCommodityList(userId));
-    }
-
-
-    /**
-     * 保存单据信息
-     *
-     * @param params 单据信息
+     * @param params 订货单信息
      * @return ajax
      */
-    @RequestMapping(value = "/saveSaleBillInfo", method = RequestMethod.POST)
+    @PostMapping(value = "/saveSaleBillInfo")
     public AjaxResult<Object> saveSaleBillInfo(@RequestBody String params) {
         System.out.println(params);
         JSONObject billInfo = JSONObject.parseObject(params);
@@ -65,4 +53,21 @@ public class BizController {
             return AjaxResult.error("时间格式有误");
         }
     }
+
+    /**
+     * 删除单据信息
+     *
+     * @param id
+     * @return
+     */
+    @DeleteMapping(value = "/delete")
+    public AjaxResult<Object> deleteSaleBillInfoById(@RequestParam(value = "id") String id,
+                                                     @RequestParam(value = "userId") String userId) throws Exception {
+        return AjaxResult.success(bizService.deleteSaleBillInfoById(id, userId));
+    }
+
+    public AjaxResult<Object> querySaleBillInfo(){
+        return null ;
+    }
+
 }

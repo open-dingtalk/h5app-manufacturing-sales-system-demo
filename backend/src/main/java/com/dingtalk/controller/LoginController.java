@@ -1,7 +1,7 @@
 package com.dingtalk.controller;
 
 import cn.hutool.core.lang.Assert;
-import com.dingtalk.common.util.yida.YiDaConfig;
+import com.dingtalk.config.YiDaConfig;
 import com.dingtalk.core.domain.AjaxResult;
 import com.dingtalk.service.LoginService;
 import lombok.extern.slf4j.Slf4j;

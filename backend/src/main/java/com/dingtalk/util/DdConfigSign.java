@@ -1,4 +1,4 @@
-package com.dingtalk.common.util.ding;
+package com.dingtalk.util;
 
 
 import java.net.URL;
