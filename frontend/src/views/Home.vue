@@ -329,17 +329,18 @@ export default {
     getCorpId({ code: ""}).then((resp) => {
       if (resp != null && resp.status == 200) {
         let corpId = resp.data.data;
-        // Message.info("corpId:" + corpId);
+        Message.info("corpId:" + corpId);
         // 获取钉钉免登code、参数：回调函数
         getCode((code) => {
-          if (code ?? '' == "") {
+          Message.info("code:" + code);
+          if (code === '' ) {
             Message.error("获取用户免登授权码失败!");
             return;
           }
           getDingTalkUserInfo({ code: code }).then((res) => {
             if (res != null && res.status == 200) {
               let data = res.data.data;
-              // Message.info("用户id：" + data.userId);
+              Message.info("用户id：" + data.userId);
               localStorage.setItem("dduserid", data.userId);
               getOrderList({"userId": data.userId}).then((res) => {
                 this.dataList = res.data.data;
