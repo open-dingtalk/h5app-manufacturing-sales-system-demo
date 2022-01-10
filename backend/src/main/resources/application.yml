@@ -1,16 +1,16 @@
 server:
-  port: 8080
+  port: ${port}
 
 dingTalk:
-  agentId: 1355272313
-  appKey: dingfsmxe3tw84dkrlpn
-  appSecret: deNlF5xOeTN0bcVsYWvJrOV0YA_tbJfITQWb4dX4LcH_SQwhN5-ssawZ4QWvp4W-
-  corpId: ding9f50b15bccd16741
+  #钉钉管理后台查看该企业的信息
+  agentId: ${agentId}
+  appKey: ${appKey}
+  appSecret: ${appSecret}
+  corpId: ${corpId}
 yida:
   #宜搭的应用编码 每个应用都不一致 需要自行配置
-  appCode: APP_MRSS7J4WWVEPGYFD4OMU
+  appCode: ${appCode}
   #宜搭的应用密钥  每个应用都不一致 需要自行配置
-  appSecretKey: BL866S91LYKWOC5IYLEJ3GCGP92X18S0M1QXK91
-  commodityFormId: FORM-K5A66M71BMEWEDO92N2OTDK58JUK3N5GRHIXK45
-  customerFormId: FORM-EA866E71W3LWLFT3WCPWFOW3EJ7N1HU0M1QXK7
-  orderbillFormId: FORM-EA866E71W3LWLFT3WCPWFOW3EJ7N1HU0M1QXKA
+  appSecretKey: ${appSecretKey}
+  #订货单表单id
+  orderFormId: ${orderFormId}
