@@ -89,10 +89,10 @@ git clone https://github.com/open-dingtalk/h5app-manufacturing-sales-system-demo
 
 ```yaml
 server:
-		port:  ${port} 
+    port:  ${port} 
 dingTalk:
-		appKey:      ${appKey}   
-		appSecret:   ${appSecret}   
+    appKey:      ${appKey}   
+    appSecret:   ${appSecret}   
     agentId:     ${agentId}   
     corpId:      ${corpId}
 yida:
