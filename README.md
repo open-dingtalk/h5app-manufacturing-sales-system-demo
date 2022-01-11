@@ -171,7 +171,17 @@ npm run build
 
 ## 5. 页面展示
 
+订货单列表
 
+![](https://img.alicdn.com/imgextra/i3/O1CN0150q3oX1tK0OGReVUR_!!6000000005882-2-tps-700-407.png)
+
+新增订货单
+
+![](https://img.alicdn.com/imgextra/i2/O1CN01w0oPAM1XnOFxwQkRm_!!6000000002968-2-tps-700-398.png)
+
+宜搭应用查看订货单数据
+
+![](https://img.alicdn.com/imgextra/i1/O1CN0143TimO1ZX1KgHfweJ_!!6000000003203-2-tps-700-335.png)
 
 
 ## 6. 参考文档
